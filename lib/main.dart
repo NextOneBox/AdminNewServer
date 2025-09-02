@@ -381,7 +381,7 @@ class _HomePageState extends State<HomePage> {
         
         // Only count successful payments
         final successfulPayments = data.where((payment) => 
-          payment['Status']?.toString().toLowerCase() == 'success').toList();
+          payment['status']?.toString().toLowerCase() == 'success').toList();
         
         for (var payment in successfulPayments) {
           final amount = payment['amount'] is num 
@@ -391,7 +391,7 @@ class _HomePageState extends State<HomePage> {
           totalAmount += amount;
           
           // Extract payment date
-          String paymentDate = payment['Date'] ?? '';
+          String paymentDate = payment['date'] ?? '';
           if (paymentDate.isNotEmpty) {
             try {
               final date = _formatDateForComparison(DateTime.parse(paymentDate));
@@ -435,7 +435,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> fetchWithdrawalStats() async {
     try {
       final response = await http.get(
-        Uri.parse('https://api.ciliega.shop/GetAllWithdrawals'),
+        Uri.parse('https://api.ciliega.shop/getAllWidrawals'),
         headers: {'Content-Type': 'application/json'},
       );
       
@@ -460,14 +460,14 @@ class _HomePageState extends State<HomePage> {
         
         // Count all withdrawals, not just successful ones
         for (var withdrawal in data) {
-          final amount = withdrawal['Amount'] is num 
-              ? withdrawal['Amount'].toDouble() 
+          final amount = withdrawal['amount'] is num 
+              ? withdrawal['amount'].toDouble() 
               : 0.0;
               
           totalAmount += amount;
           
           // Extract withdrawal date
-          String withdrawalDate = withdrawal['Date'] ?? '';
+          String withdrawalDate = withdrawal['date'] ?? '';
           if (withdrawalDate.isNotEmpty) {
             try {
               final date = _formatDateForComparison(DateTime.parse(withdrawalDate));
